@@ -1,3 +1,7 @@
+<h1>Architecture</h1>
+
+![Adding your SQL server and database](https://github.com/Azure/etlorchestration-cortana-intelligence-preconfigured-solution/blob/master/Docs/figures/Architecture.png)
+
 <h1>Under The Hood</h1>
 <h2 align="center">BATCH LOADS</h2>
 ### Generate Dimension
