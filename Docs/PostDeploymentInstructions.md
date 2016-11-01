@@ -2,6 +2,47 @@
 
 ![Adding your SQL server and database](https://github.com/Azure/etlorchestration-cortana-intelligence-preconfigured-solution/blob/master/Docs/figures/Architecture.png)
 
+<h1>Visualize Using Power BI</h1>
+The generated Fact and Dimension tables can be visualized in Power BI by connecting to the SQL Data Warehouse instance. Refer [this sample Power BI Desktop file](https://github.com/Azure/etlorchestration-cortana-intelligence-preconfigured-solution/tree/master/Power-BI-Templates/AzureEtlOrchestrationSampleDashboard.pbix). See [PBI section](#pbi-setup) for details on wiring it up with your Data Warehouse instance. 
+
+#### Power BI Dashboard <a id="pbi-setup"/>
+
+Power BI can connect to our data mart hosted on Azure SQL Data Warehouse to visualize the generated Facts and Dimensions. This section describes how to set up the sample Power BI dashboard to visualize the results of the pipeline.
+
+1) Get the database server name, database name, user name and password from the [deployment summary page](https://start.cortanaintelligence.com/Deployments?type=avhivedw) on CIS.
+
+![SQL Database credentials in deployment summary page](https://github.com/Azure/etlorchestration-cortana-intelligence-preconfigured-solution/tree/master/Docs/figures/SqlServerCredentials.png)
+
+2) Update the data source of the Power BI file.
+ - Make sure you have the latest version of [Power BI desktop](https://powerbi.microsoft.com/desktop) installed.
+ - Download the [Power BI template](https://github.com/Azure/etlorchestration-cortana-intelligence-preconfigured-solution/tree/master/Power-BI-Templates/AzureEtlOrchestrationSampleDashboard.pbix) for the solution. 
+ - The initial visualizations are based on sample data. **Note:** If you see an error message, please make sure you have the latest version of Power BI Desktop installed.
+ Click **‘Edit Queries’** and choose **‘Data Source Settings’** from the menu.
+
+ ![Changing datasource in Power BI](https://github.com/Azure/etlorchestration-cortana-intelligence-preconfigured-solution/tree/master/Docs/figures/PBI_DataSource_settings.png)
+ - The resulting dialog will show SQL Server which is queried to fetch data for Power BI dashboard. Click the **‘Change Source...’** button and replace **‘Server’** and **‘Database’** settings in the resulting dialog with your own server and database names from step 1. Click **‘OK’**.
+ 
+![Adding your SQL server and database](https://github.com/Azure/etlorchestration-cortana-intelligence-preconfigured-solution/tree/master/Docs/figures/PBI_DataSource_dialog.png)
+   
+- Click **‘Close’** to exit the **‘Data Source Settings’** dialog. A warning will appear prompting you to apply the changes. Click the **‘Apply Changes’** button.
+   
+![PBI warning message prompting the user to apply Data Source changes](https://github.com/Azure/etlorchestration-cortana-intelligence-preconfigured-solution/tree/master/Docs/figures/PBI_update_ribbon.png)
+   
+- A dialog prompting the user for Database credentials will appear. Click **‘Database’**, fill in your **‘Username’** and **‘Password’** from step 1. Then click **‘Connect’**.
+   
+![Database credentials prompt](https://github.com/Azure/etlorchestration-cortana-intelligence-preconfigured-solution/tree/master/Docs/figures/PBI_SqlServerUsernamePassword_prompt.png)
+   
+- Save the dashboard. Your Power BI file now has an established connection to the server. If your visualizations are empty, make sure you clear the selections on the visualizations to visualize all the data by clicking the eraser icon on the upper right corner of the legends. Use the refresh button to reflect new data on the visualizations. 
+
+3) (Optional) Publish the dashboard to [Power BI online](http://www.powerbi.com/). Note that this step needs a Power BI account (or Office 365 account).
+- Click **‘Publish’** and few seconds later a window appears displaying "Publishing to Power BI Success!" with a green check mark. To find detailed instructions, see [Publish from Power BI Desktop](https://support.powerbi.com/knowledgebase/articles/461278-publish-from-power-bi-desktop).
+- To create a new dashboard: click the + sign next to the **Dashboards** section on the left pane. Enter the name "IT Anomaly Insights" for this new dashboard.
+ 
+4) (Optional) Schedule refresh of the data source.
+- To schedule refresh of the data, hover your mouse over the dataset, click "..." and then choose **Schedule Refresh**. **Note:** If you see a warning massage, click **Edit Credentials** and make sure your database credentials are the same as those described in step 1.
+- Expand the **Schedule Refresh** section. Turn on "keep your data up-to-date". 
+- Schedule the refresh based on your needs. To find more information, see [Data refresh in Power BI](https://powerbi.microsoft.com/documentation/powerbi-refresh-data/).
+
 <h1>Under The Hood</h1>
 <h2 align="center">BATCH LOADS</h2>
 ### Generate Dimension
