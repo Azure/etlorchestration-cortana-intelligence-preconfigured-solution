@@ -1,6 +1,8 @@
 <h1>Architecture</h1>
 
-![Adding your SQL server and database](https://github.com/Azure/etlorchestration-cortana-intelligence-preconfigured-solution/blob/master/Docs/figures/Architecture.png)
+![High Level Pipeline Architecture](https://github.com/Azure/etlorchestration-cortana-intelligence-preconfigured-solution/blob/master/Docs/figures/Architecture.png)
+
+![Pipeline Data Flow Chart](https://github.com/Azure/etlorchestration-cortana-intelligence-preconfigured-solution/blob/master/Docs/figures/DataFlowChart.png)
 
 <h1>Visualize Using Power BI</h1>
 The generated Fact and Dimension tables can be visualized in Power BI by connecting to the SQL Data Warehouse instance. Refer [this sample Power BI Desktop file](https://github.com/Azure/etlorchestration-cortana-intelligence-preconfigured-solution/tree/master/Power-BI-Templates/AzureEtlOrchestrationSampleDashboard.pbix). See [PBI section](#pbi-setup) for details on wiring it up with your Data Warehouse instance. 
