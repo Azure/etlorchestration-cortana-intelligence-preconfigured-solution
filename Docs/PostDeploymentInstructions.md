@@ -1,7 +1,4 @@
 <h1 id="architecture">Architecture</h1>
-
-![High Level Pipeline Architecture](https://github.com/Azure/etlorchestration-cortana-intelligence-preconfigured-solution/blob/master/Docs/figures/Architecture.png)
-
 In this solution, we demonstrate how a hybrid EDW scenario can be implemented on Azure using: 
 * **Azure SQL Data Warehouse** as a Data mart to vend business-line specific data.
 * **Azure Blob Storage** as a Data Lake to store raw data in their native format until needed in a flat architecture. 
@@ -10,16 +7,17 @@ In this solution, we demonstrate how a hybrid EDW scenario can be implemented on
 
 Our scenario includes an Extract-Load-and-Transform (ELT) model. Firstly, we extract data from an operational OLTP data source into Azure Blob Storage. Azure Blob acts as landing zone to process initially loaded data. We then transform the data to generate facts and dimensions using Azure HDInsight's Hive as our processing engine. This processed data is then moved into Azure SQL Data Warehouse that acts as data mart for reporting and analysis. We then show how this data can be visualized on tools such as PowerBI. Importantly, we also show how this entire architecture can be orchestrated and monitored through Azure Data Factory. To demonstrate this, we deploy both a batch pipeline to showcase initial bulk data load and an incremental pipeline to instrument change data capture for incoming data slices. 
 
+![High Level Pipeline Architecture](https://github.com/Azure/etlorchestration-cortana-intelligence-preconfigured-solution/blob/master/Docs/figures/Architecture.png)
+
 <h1>Data Flow</h1>
-
-![Pipeline Data Flow Chart](https://github.com/Azure/etlorchestration-cortana-intelligence-preconfigured-solution/blob/master/Docs/figures/DataFlowChart.png)
-
 The following steps are performed as outlined in the chart above: 
 * **[1->2]** Normalized OLTP data is cloned to Azure Blob storage every hour. Data copied is partitioned by time slice at a 1 hour granularity.
 * **[3->4->5]** Hive external tables are created against the cloned source OLTP data and used to generate dimensions which are writtern back to a Hive transactional table. Refer [here](#batch-loads) for details of the transforms applied. In the incremental pipeline, deltas are reconciled using the procedure outlined [here](#incremental-loads).
 * **[5->6->7]** Generated dimensions and source OLTP data are used to generate Hive transactional Fact tables.
 * **[6->7/8->9]** Fact & Dimension tables are written out to CSV files in Azure Blob to enable Polybase load into the data mart (Azure SQL Data Warehouse). Stored procedure activities in Azure Data Factory are kicked off to load external tables and subsequent inserts into Fact and Dimension tables. In the incremental pipeline, deltas are reconciled in a manner similar to the procedure outlined [here](#incremental-loads).
 * **[10]** Data  sourced from the data mart is used to visualize dashboards referencing the OLAP models generated.
+
+![Pipeline Data Flow Chart](https://github.com/Azure/etlorchestration-cortana-intelligence-preconfigured-solution/blob/master/Docs/figures/DataFlowChart.png)
 
 <h1>Dataset</h1>
 The data used as our OLTP source models a fictious company named 'Adventure Works Cycles'; a large, multinational manufacturing company. The company manufactures and sells metal and composite bicycles to North American, European and Asian commercial markets. Refer [here](https://technet.microsoft.com/en-us/library/ms124825(v=sql.100).aspx) for deeper look at the various business scenarios addressed by this dataset.
@@ -60,8 +58,8 @@ To simulate incremental inserts, we deploy a data generator to simulate sales or
 ![Monitoring Figure 8](https://github.com/Azure/etlorchestration-cortana-intelligence-preconfigured-solution/blob/master/Docs/figures/MON-8.png)
 
 8) Similarly to track fact/dimension generation in the incrementals pipeline, set the **Pipeline** filter to **IncrementalSyncPipeline**. 
-    - For Facts, set the search filter under **Activity** to **Fact** and select any/all of the following: *FactSalesQuota-Inc*, *FactCurrencyRate-Inc* and *FactResellerSales-Inc*.
-    - For Dimensions, set the search filter under **Activity** to **Dimension** and select any/all of the following: *DimCurrency-Inc*.
+  * For Facts, set the search filter under **Activity** to **Fact** and select any/all of the following: *FactSalesQuota-Inc*, *FactCurrencyRate-Inc* and *FactResellerSales-Inc*.
+  * For Dimensions, set the search filter under **Activity** to **Dimension** and select any/all of the following: *DimCurrency-Inc*.
 
 ### Setting Up Alerts 
 You can set up alarms to send email notifications when pipeline activities fail for whatever reason. The steps to set this up are as follows:
