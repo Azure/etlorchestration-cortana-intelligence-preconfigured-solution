@@ -30,42 +30,55 @@ To simulate incremental inserts, we deploy a data generator to simulate sales or
 
 ### Reviewing Fact/Dimension Generation Health
 
-1. Head to the **Monitor & Manage App** from the Azure Data Factory blade. You can access this blade quickly by referencing your [CIS deployment page](https://start.cortanaintelligence.com/Deployments?type=avhivedw) once the deployment is complete. The data factory blade is accessible by clicking the **Azure Data Factory** link on this page. 
+1) Head to the **Monitor & Manage App** from the Azure Data Factory blade. You can access this blade quickly by referencing your [CIS deployment page](https://start.cortanaintelligence.com/Deployments?type=avhivedw) once the deployment is complete. The data factory blade is accessible by clicking the **Azure Data Factory** link on this page. 
 
 ![Monitoring Figure 1](https://github.com/Azure/etlorchestration-cortana-intelligence-preconfigured-solution/blob/master/Docs/figures/MON-1.png)
 
-2. Because we simulate our batch pipeline as being a one-time initial load in the past, set the *Start Time (UTC)* and *End time (UTC)* to ```06/10/2016 12:00 am``` and ```06/15/2016 12:00 am``` to be able to view activity windows for the batch pipeline.
+2) Because we simulate our batch pipeline as being a one-time initial load in the past, set the *Start Time (UTC)* and *End time (UTC)* to ```06/10/2016 12:00 am``` and ```06/15/2016 12:00 am``` to be able to view activity windows for the batch pipeline.
 
 ![Monitoring Figure 2](https://github.com/Azure/etlorchestration-cortana-intelligence-preconfigured-solution/blob/master/Docs/figures/MON-2.png)
 
-3. Notice now that the ```Activity Windows``` pane shows several time slices in various stages (Read, In-Progress, Waiting etc.). To view the slices from the **Batch pipeline**, click the funnel icon next to **Pipeline** and select the **BatchLoadPipeline**.
+3) Notice now that the ```Activity Windows``` pane shows several time slices in various stages (Read, In-Progress, Waiting etc.). To view the slices from the **Batch pipeline**, click the funnel icon next to **Pipeline** and select the **BatchLoadPipeline**.
 
 ![Monitoring Figure 3](https://github.com/Azure/etlorchestration-cortana-intelligence-preconfigured-solution/blob/master/Docs/figures/MON-3.png)
 
-4. To view the status of the **Dimensions** generated, click the funnel icon next to **Activity** and key in **Dim**. Next, select all the dimensions that you would like to view the status for. These may be one of *DimProduct*, *DimCurrency* and *DimEmployee*.
+4) To view the status of the **Dimensions** generated, click the funnel icon next to **Activity** and key in **Dim**. Next, select all the dimensions that you would like to view the status for. These may be one of *DimProduct*, *DimCurrency* and *DimEmployee*.
 
 ![Monitoring Figure 4](https://github.com/Azure/etlorchestration-cortana-intelligence-preconfigured-solution/blob/master/Docs/figures/MON-4.png)
   
-5. Similarly, to view the status of the **Facts** generated, click the funnel icon next to **Activity** and key in **Fact**. Next, select all facts that you wish to view the status for. These may be one of *FactSalesQuota*, *FactCurrencyRate* and *FactResellerSales*.
+5) Similarly, to view the status of the **Facts** generated, click the funnel icon next to **Activity** and key in **Fact**. Next, select all facts that you wish to view the status for. These may be one of *FactSalesQuota*, *FactCurrencyRate* and *FactResellerSales*.
 
 ![Monitoring Figure 5](https://github.com/Azure/etlorchestration-cortana-intelligence-preconfigured-solution/blob/master/Docs/figures/MON-5.png)
+
+6) You can even drill on a specific time slice by setting the **Window Start** and **Window End** filters to a time range enclosing the required slices. 
+
+![Monitoring Figure 6](https://github.com/Azure/etlorchestration-cortana-intelligence-preconfigured-solution/blob/master/Docs/figures/MON-6.png)
+
+7) Selecting the activity window, displays an **Activity Window Explorer** pane on the right, which shows the events that have succeded/failed on a calendar marked in green/red. It also shows details of the dependant slices and logs tied to the activity. This provides a quick stop place to drill down on activity failures and gain quick access to your **failure logs**. 
+
+![Monitoring Figure 7](https://github.com/Azure/etlorchestration-cortana-intelligence-preconfigured-solution/blob/master/Docs/figures/MON-7.png)
+![Monitoring Figure 8](https://github.com/Azure/etlorchestration-cortana-intelligence-preconfigured-solution/blob/master/Docs/figures/MON-8.png)
+
+8) Similarly to track fact/dimension generation in the incrementals pipeline, set the **Pipeline** filter to **IncrementalSyncPipeline**. 
+    - For Facts, set the search filter under **Activity** to **Fact** and select any/all of the following: *FactSalesQuota-Inc*, *FactCurrencyRate-Inc* and *FactResellerSales-Inc*.
+    - For Dimensions, set the search filter under **Activity** to **Dimension** and select any/all of the following: *DimCurrency-Inc*.
 
 ### Setting Up Alerts 
 You can set up alarms to send email notifications when pipeline activities fail for whatever reason. The steps to set this up are as follows:
 
-1. Begin by heading over to the Alerts tab on the Monitor and manage app.
+1) Begin by heading over to the Alerts tab on the Monitor and manage app.
 
 ![Alerts Figure 1](https://github.com/Azure/etlorchestration-cortana-intelligence-preconfigured-solution/blob/master/Docs/figures/ALERT-1.png)
 
-2. Click **Add Alert** to add an alert. Give it a suitable *name* and *description*.
+2) Click **Add Alert** to add an alert. Give it a suitable *name* and *description*.
 
 ![Alerts Figure 2](https://github.com/Azure/etlorchestration-cortana-intelligence-preconfigured-solution/blob/master/Docs/figures/ALERT-2.png)
 
-3. Select a suitable *event*, *status* and *sub-status*. This is typically *Activity Run Finished* and *Failed* to track all failed slices.  
+3) Select a suitable *event*, *status* and *sub-status*. This is typically *Activity Run Finished* and *Failed* to track all failed slices.  
 
 ![Alerts Figure 3](https://github.com/Azure/etlorchestration-cortana-intelligence-preconfigured-solution/blob/master/Docs/figures/ALERT-3.png)
 
-4. Specify an email address to notify.  
+4) Specify an email address to notify.  
 
 ![Alerts Figure 4](https://github.com/Azure/etlorchestration-cortana-intelligence-preconfigured-solution/blob/master/Docs/figures/ALERT-4.png)
 
