@@ -1,8 +1,73 @@
-<h1>Architecture</h1>
+<h1 id="architecture">Architecture</h1>
 
 ![High Level Pipeline Architecture](https://github.com/Azure/etlorchestration-cortana-intelligence-preconfigured-solution/blob/master/Docs/figures/Architecture.png)
 
+In this solution, we demonstrate how a hybrid EDW scenario can be implemented on Azure using: 
+* **Azure SQL Data Warehouse** as a Data mart to vend business-line specific data.
+* **Azure Blob Storage** as a Data Lake to store raw data in their native format until needed in a flat architecture. 
+* **Azure HDInsight** as a processing layer to transform, sanitize and load raw data into a de-normalized format suitable for analytics. 
+* **Azure Data Factory** as our orchestration engine to move, transform, monitor and process data in a scheduled time-slice based manner. 
+
+Our scenario includes an Extract-Load-and-Transform (ELT) model. Firstly, we extract data from an operational OLTP data source into Azure Blob Storage. Azure Blob acts as landing zone to process initially loaded data. We then transform the data to generate facts and dimensions using Azure HDInsight's Hive as our processing engine. This processed data is then moved into Azure SQL Data Warehouse that acts as data mart for reporting and analysis. We then show how this data can be visualized on tools such as PowerBI. Importantly, we also show how this entire architecture can be orchestrated and monitored through Azure Data Factory. To demonstrate this, we deploy both a batch pipeline to showcase initial bulk data load and an incremental pipeline to instrument change data capture for incoming data slices. 
+
+<h1>Data Flow</h1>
+
 ![Pipeline Data Flow Chart](https://github.com/Azure/etlorchestration-cortana-intelligence-preconfigured-solution/blob/master/Docs/figures/DataFlowChart.png)
+
+The following steps are performed as outlined in the chart above: 
+* **[1->2]** Normalized OLTP data is cloned to Azure Blob storage every hour. Data copied is partitioned by time slice at a 1 hour granularity.
+* **[3->4->5]** Hive external tables are created against the cloned source OLTP data and used to generate dimensions which are writtern back to a Hive transactional table. Refer [here](#batch-loads) for details of the transforms applied. In the incremental pipeline, deltas are reconciled using the procedure outlined [here](#incremental-loads).
+* **[5->6->7]** Generated dimensions and source OLTP data are used to generate Hive transactional Fact tables.
+* **[6->7/8->9]** Fact & Dimension tables are written out to CSV files in Azure Blob to enable Polybase load into the data mart (Azure SQL Data Warehouse). Stored procedure activities in Azure Data Factory are kicked off to load external tables and subsequent inserts into Fact and Dimension tables. In the incremental pipeline, deltas are reconciled in a manner similar to the procedure outlined [here](#incremental-loads).
+* **[10]** Data  sourced from the data mart is used to visualize dashboards referencing the OLAP models generated.
+
+<h1>Dataset</h1>
+The data used as our OLTP source models a fictious company named 'Adventure Works Cycles'; a large, multinational manufacturing company. The company manufactures and sells metal and composite bicycles to North American, European and Asian commercial markets. Refer [here](https://technet.microsoft.com/en-us/library/ms124825(v=sql.100).aspx) for deeper look at the various business scenarios addressed by this dataset.
+
+To simulate incremental inserts, we deploy a data generator to simulate sales orders being produced in real-time. This will be deployed as a webjob in your subscription.
+
+<h1 id="monitor">Monitoring your Warehousing Pipeline</h1>
+
+### Reviewing Fact/Dimension Generation Health
+
+1. Head to the **Monitor & Manage App** from the Azure Data Factory blade. You can access this blade quickly by referencing your [CIS deployment page](https://start.cortanaintelligence.com/Deployments?type=avhivedw) once the deployment is complete. The data factory blade is accessible by clicking the **Azure Data Factory** link on this page. 
+
+![Monitoring Figure 1](https://github.com/Azure/etlorchestration-cortana-intelligence-preconfigured-solution/blob/master/Docs/figures/MON-1.png)
+
+2. Because we simulate our batch pipeline as being a one-time initial load in the past, set the *Start Time (UTC)* and *End time (UTC)* to ```06/10/2016 12:00 am``` and ```06/15/2016 12:00 am``` to be able to view activity windows for the batch pipeline.
+
+![Monitoring Figure 2](https://github.com/Azure/etlorchestration-cortana-intelligence-preconfigured-solution/blob/master/Docs/figures/MON-2.png)
+
+3. Notice now that the ```Activity Windows``` pane shows several time slices in various stages (Read, In-Progress, Waiting etc.). To view the slices from the **Batch pipeline**, click the funnel icon next to **Pipeline** and select the **BatchLoadPipeline**.
+
+![Monitoring Figure 3](https://github.com/Azure/etlorchestration-cortana-intelligence-preconfigured-solution/blob/master/Docs/figures/MON-3.png)
+
+4. To view the status of the **Dimensions** generated, click the funnel icon next to **Activity** and key in **Dim**. Next, select all the dimensions that you would like to view the status for. These may be one of *DimProduct*, *DimCurrency* and *DimEmployee*.
+
+![Monitoring Figure 4](https://github.com/Azure/etlorchestration-cortana-intelligence-preconfigured-solution/blob/master/Docs/figures/MON-4.png)
+  
+5. Similarly, to view the status of the **Facts** generated, click the funnel icon next to **Activity** and key in **Fact**. Next, select all facts that you wish to view the status for. These may be one of *FactSalesQuota*, *FactCurrencyRate* and *FactResellerSales*.
+
+![Monitoring Figure 5](https://github.com/Azure/etlorchestration-cortana-intelligence-preconfigured-solution/blob/master/Docs/figures/MON-5.png)
+
+### Setting Up Alerts 
+You can set up alarms to send email notifications when pipeline activities fail for whatever reason. The steps to set this up are as follows:
+
+1. Begin by heading over to the Alerts tab on the Monitor and manage app.
+
+![Alerts Figure 1](https://github.com/Azure/etlorchestration-cortana-intelligence-preconfigured-solution/blob/master/Docs/figures/ALERT-1.png)
+
+2. Click **Add Alert** to add an alert. Give it a suitable *name* and *description*.
+
+![Alerts Figure 2](https://github.com/Azure/etlorchestration-cortana-intelligence-preconfigured-solution/blob/master/Docs/figures/ALERT-2.png)
+
+3. Select a suitable *event*, *status* and *sub-status*. This is typically *Activity Run Finished* and *Failed* to track all failed slices.  
+
+![Alerts Figure 3](https://github.com/Azure/etlorchestration-cortana-intelligence-preconfigured-solution/blob/master/Docs/figures/ALERT-3.png)
+
+4. Specify an email address to notify.  
+
+![Alerts Figure 4](https://github.com/Azure/etlorchestration-cortana-intelligence-preconfigured-solution/blob/master/Docs/figures/ALERT-4.png)
 
 <h1>Visualize Using Power BI</h1>
 The generated Fact and Dimension tables can be visualized in Power BI by connecting to the SQL Data Warehouse instance. Refer [this sample Power BI Desktop file](https://github.com/Azure/etlorchestration-cortana-intelligence-preconfigured-solution/tree/master/Power-BI-Templates/AzureEtlOrchestrationSampleDashboard.pbix). See [PBI section](#pbi-setup) for details on wiring it up with your Data Warehouse instance. 
@@ -46,7 +111,8 @@ Power BI can connect to our data mart hosted on Azure SQL Data Warehouse to visu
 - Schedule the refresh based on your needs. To find more information, see [Data refresh in Power BI](https://powerbi.microsoft.com/documentation/powerbi-refresh-data/).
 
 <h1>Under The Hood</h1>
-<h2 align="center">BATCH LOADS</h2>
+<h2 id="batch-loads" align="center">BATCH LOADS</h2>
+
 ### Generate Dimension
 #### Create Dimension Table
 We begin by creating a Hive external table for each OLTP source table which has been cloned to Azure Blob (our data 'lake'). These source tables are writted out into tsv files partitioned by timestamp. We also create the dimension table as a transactional Hive table. We choose to keep this transactional to enable updates & deletes against this.
@@ -175,7 +241,7 @@ FROM CurrencyRate AS cr
         ON cr.ToCurrencyCode = dc.CurrencyAlternateKey;
 ```
 
-<h2 align="center">INCREMENTAL LOADS</h2>
+<h2 id="incremental-loads" align="center">INCREMENTAL LOADS</h2>
 ## Dimension
 We follow the Type 1 model of Change Data Capture (CDC) for our slowly changing dimensions (SCD). Particularly, we do not track historical data, and proceed to overwrite existing records on updates. Hive which is used as our data lake store does not currently support sub-query based updates. So, we proceed with a delete and insert on rows to be updated. Update candidates are filtered out as follows:
 -	Incrementals enter the partitioned blob store.
