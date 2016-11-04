@@ -6,6 +6,7 @@ The following document describes details on the **Extract-Transform-Load On Azur
   * [Dataset](#datasets): Overview of the Adventure Works OLTP dataset: our source OLTP database for this solution.
   * [Monitoring](#monitor): Details on monitoring and setting up alarms for your warehousing pipeline.
   * [Visualizing with Power BI](#pbi-setup): A wallk through on sourcing the OLAP data to visualize a sample *Reseller Sales Dashboard* using Power BI.
+  * [Batch Load and Incremental Processing](#under-the-hood): Covers the details of Hive queries used, tables created and the procedures applied to perform the initial load and ingest incrementals to support change data capture for the dimensions and facts.
 
 <h1 id="architecture">Architecture</h1>
 In this solution, we demonstrate how a hybrid EDW scenario can be implemented on Azure using: 
