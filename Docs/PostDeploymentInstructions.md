@@ -101,17 +101,15 @@ The generated Fact and Dimension tables can be visualized in Power BI by connect
 
 Power BI can connect to our data mart hosted on Azure SQL Data Warehouse to visualize the generated Facts and Dimensions. This section describes how to set up the sample Power BI dashboard to visualize the results of the pipeline.
 
-1) Get the database server name, database name, user name and password from the [deployment summary page](https://start.cortanaintelligence.com/Deployments?type=avhivedw) on CIS.
-
-![SQL Database credentials in deployment summary page](https://github.com/Azure/etlorchestration-cortana-intelligence-preconfigured-solution/blob/master/Docs/figures/SqlServerCredentials.png)
+1) Get the database server name & database model name from the [deployment summary page](https://start.cortanaintelligence.com/Deployments?type=avhivedw) on CIS.
 
 2) Update the data source of the Power BI file.
  - Make sure you have the latest version of [Power BI desktop](https://powerbi.microsoft.com/desktop) installed.
  - Download the [Power BI template](https://github.com/Azure/etlorchestration-cortana-intelligence-preconfigured-solution/tree/master/Power-BI-Templates/aasdashboard.pbix) for the solution. 
  - The initial visualizations are based on sample data. **Note:** If you see an error message, please make sure you have the latest version of Power BI Desktop installed.
-- Go to ```Edit Queries```->```Data Source Settings```. Set the following parameters:
+- Go to ```Edit Queries```->```Data Source Settings```. Set the **Server** and **Database** to the parameters specified in your CIQS deployment page. They should look something like this;
 	```
-	Server: asazure://aspaaseastus2.asazure.windows.net/{Outputs.asName}
+	Server: asazure://aspaaseastus2.asazure.windows.net/<asName>
 	Database: SemanticModel
 	```
 - Under your Azure AS instance, select ```Model``` and hit ```Ok```.
