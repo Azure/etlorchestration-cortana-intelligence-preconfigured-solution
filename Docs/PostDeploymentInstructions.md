@@ -107,23 +107,15 @@ Power BI can connect to our data mart hosted on Azure SQL Data Warehouse to visu
 
 2) Update the data source of the Power BI file.
  - Make sure you have the latest version of [Power BI desktop](https://powerbi.microsoft.com/desktop) installed.
- - Download the [Power BI template](https://github.com/Azure/etlorchestration-cortana-intelligence-preconfigured-solution/tree/master/Power-BI-Templates/AzureEtlOrchestrationSampleDashboard.pbix) for the solution. 
+ - Download the [Power BI template](https://github.com/Azure/etlorchestration-cortana-intelligence-preconfigured-solution/tree/master/Power-BI-Templates/aasdashboard.pbix) for the solution. 
  - The initial visualizations are based on sample data. **Note:** If you see an error message, please make sure you have the latest version of Power BI Desktop installed.
- Click **‘Edit Queries’** and choose **‘Data Source Settings’** from the menu.
-
- ![Changing datasource in Power BI](https://github.com/Azure/etlorchestration-cortana-intelligence-preconfigured-solution/blob/master/Docs/figures/PBI_DataSource_settings.png)
- - The resulting dialog will show SQL Server which is queried to fetch data for Power BI dashboard. Click the **‘Change Source...’** button and replace **‘Server’** and **‘Database’** settings in the resulting dialog with your own server and database names from step 1. Click **‘OK’**.
- 
-![Adding your SQL server and database](https://github.com/Azure/etlorchestration-cortana-intelligence-preconfigured-solution/blob/master/Docs/figures/PBI_DataSource_dialog.png)
-   
-- Click **‘Close’** to exit the **‘Data Source Settings’** dialog. A warning will appear prompting you to apply the changes. Click the **‘Apply Changes’** button.
-   
-![PBI warning message prompting the user to apply Data Source changes](https://github.com/Azure/etlorchestration-cortana-intelligence-preconfigured-solution/blob/master/Docs/figures/PBI_update_ribbon.png)
-   
-- A dialog prompting the user for Database credentials will appear. Click **‘Database’**, fill in your **‘Username’** and **‘Password’** from step 1. Then click **‘Connect’**.
-   
-![Database credentials prompt](https://github.com/Azure/etlorchestration-cortana-intelligence-preconfigured-solution/blob/master/Docs/figures/PBI_SqlServerUsernamePassword_prompt.png)
-   
+- Go to ```Edit Queries```->```Data Source Settings```. Set the following parameters:
+	```
+	Server: asazure://aspaaseastus2.asazure.windows.net/{Outputs.asName}
+	Database: SemanticModel
+	```
+- Under your Azure AS instance, select ```Model``` and hit ```Ok```.
+- In case the data fails to load, hit ```Refresh``` on the panel above.
 - Save the dashboard. Your Power BI file now has an established connection to the server. If your visualizations are empty, make sure you clear the selections on the visualizations to visualize all the data by clicking the eraser icon on the upper right corner of the legends. Use the refresh button to reflect new data on the visualizations. 
 
 3) (Optional) Publish the dashboard to [Power BI online](http://www.powerbi.com/). Note that this step needs a Power BI account (or Office 365 account).
