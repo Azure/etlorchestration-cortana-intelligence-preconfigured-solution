@@ -11,6 +11,7 @@ The following document describes details on the **Extract-Transform-Load On Azur
 <h1 id="architecture">Architecture</h1>
 In this solution, we demonstrate how a hybrid EDW scenario can be implemented on Azure using: 
 * **Azure SQL Data Warehouse** as a Data mart to vend business-line specific data.
+* **Azure Analysis Services** as an analytical engine to drive reporting.
 * **Azure Blob Storage** as a Data Lake to store raw data in their native format until needed in a flat architecture. 
 * **Azure HDInsight** as a processing layer to transform, sanitize and load raw data into a de-normalized format suitable for analytics. 
 * **Azure Data Factory** as our orchestration engine to move, transform, monitor and process data in a scheduled time-slice based manner. 
