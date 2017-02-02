@@ -264,7 +264,7 @@ FROM CurrencyRate AS cr
 ## Dimension
 We follow the Type 1 model of Change Data Capture (CDC) for our slowly changing dimensions (SCD). Particularly, we do not track historical data, and proceed to overwrite existing records on updates. Hive which is used as our data lake store does not currently support sub-query based updates. So, we proceed with a delete and insert on rows to be updated. Update candidates are filtered out as follows:
 -	Incrementals enter the partitioned blob store.
--	A reconcile view is generated against the partitioned store for each source table.
+-	A reconcile view is generated against the partitioned store for each source table.
 -	The dimension is generated from the reconcile views and rows modified before the update interval are filtered out.
 -   The candidates are then joined with the dimension table to differentiate update vs. insert candidates. 
 
