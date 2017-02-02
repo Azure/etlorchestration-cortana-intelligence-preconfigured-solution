@@ -18,7 +18,7 @@ In this solution, we demonstrate how a hybrid EDW scenario can be implemented on
 
 Our scenario includes an Extract-Load-and-Transform (ELT) model. Firstly, we extract data from an operational OLTP data source into Azure Blob Storage. Azure Blob acts as landing zone to process initially loaded data. We then transform the data to generate facts and dimensions using Azure HDInsight's Hive as our processing engine. This processed data is then moved into Azure SQL Data Warehouse that acts as data mart for reporting and analysis. We then show how this data can be visualized on tools such as PowerBI. Importantly, we also show how this entire architecture can be orchestrated and monitored through Azure Data Factory. To demonstrate this, we deploy both a batch pipeline to showcase initial bulk data load and an incremental pipeline to instrument change data capture for incoming data slices. 
 
-![High Level Pipeline Architecture](https://github.com/Azure/etlorchestration-cortana-intelligence-preconfigured-solution/blob/master/Docs/figures/Architecture.png)
+![High Level Pipeline Architecture](https://github.com/Azure/etlorchestration-cortana-intelligence-preconfigured-solution/blob/master/Docs/figures/ArchitectureDiagram.png)
 
 <h1 id="dataflow">Data Flow</h1>
 The following steps are performed as outlined in the chart above: 
