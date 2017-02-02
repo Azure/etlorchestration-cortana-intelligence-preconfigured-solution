@@ -1,5 +1,6 @@
+
 <h1 id="overview">Overview</h1>
-The following document describes details on the **Extract-Transform-Load On Azure Solution** deployed via [*Cortana Intelligence Solutions (CIS)*](https://start.cortanaintelligence.com/). It covers the following: 
+The following document describes details on the **Data Warehousing and Modern BI** technical pattern deployed via [*Cortana Intelligence Solutions (CIS)*](https://start.cortanaintelligence.com/). It covers the following: 
 
   * [Architecture](#architecture): A high level description of deployed components, building-blocks and resulting outputs. 
   * [Data Flow](#dataflow): Describes the datasets created and transforms applied over various services to generate the star-schema model of the source OLTP data.
@@ -8,8 +9,6 @@ The following document describes details on the **Extract-Transform-Load On Azur
   * [Visualizing with Power BI](#pbi-setup): A wallk through on sourcing the OLAP data to visualize a sample *Reseller Sales Dashboard* using Power BI.
   * [Batch Load and Incremental Processing](#under-the-hood): Covers the details of Hive queries used, tables created and the procedures applied to perform the initial load and ingest incrementals to support change data capture for the dimensions and facts.
 
-<h1 id="pricing">Pricing</h1>
-Details on estimated pricing are available in [this spreadsheet.](https://github.com/Azure/etlorchestration-cortana-intelligence-preconfigured-solution/blob/master/Docs/Data%20Warehousing%20and%20Modern%20BI%20on%20Azure%20-%20Estimated%20Pricing.xlsx)
 
 <h1 id="architecture">Architecture</h1>
 In this solution, we demonstrate how a hybrid EDW scenario can be implemented on Azure using: 
@@ -128,6 +127,31 @@ Power BI can connect to our data mart hosted on Azure SQL Data Warehouse to visu
 - To schedule refresh of the data, hover your mouse over the dataset, click "..." and then choose **Schedule Refresh**. **Note:** If you see a warning massage, click **Edit Credentials** and make sure your database credentials are the same as those described in step 1.
 - Expand the **Schedule Refresh** section. Turn on "keep your data up-to-date". 
 - Schedule the refresh based on your needs. To find more information, see [Data refresh in Power BI](https://powerbi.microsoft.com/documentation/powerbi-refresh-data/).
+
+
+
+<h1 id="pricing">Pricing</h1>
+Estimated (mimimun) cost for running this technical pattern
+
+**Service type** | **Custom name** | **Region** | **Description** | **Estimated Cost**
+--------------------- | --------------------- | --------------------- | -------------------------------------- | -------------:
+Azure Analysis Services | Azure Analysis Services | South Central US | s1 tier: 100 QPUs, 25 GB memory. 1 instance(s) for  744 hours | $755.16
+HDInsight | HDInsight | South Central US | Type: windows, cluster type: hadoop. Head node: D3 size, 2 instances x 744 hours. Worker node: D3 size, 1 instances x 744 hours. | $1,388.30
+Storage	| Storage | Central US | GB storage Block blob type. Basic tier, LRS redundancy, 1 x100,000 transactions, Hot Access Tier | $0.60
+Automation | Automation | South Central US | basic tier, process capability, 1500 minutes(s) | $3.00
+Data Factory | Data Factory | West US | Cloud: 0 low frequency, 55 high frequency, 0 re runs, 1364 data movement. On Premises: 0 low frequency, 0 high frequency, 0 re runs, 0 data movement. | $396.00
+SQL Data Warehouse | SQL Data Warehouse | South Central US | 1 x100 DWU blocks x 744 hours, 1 TB storage | $1,247.88
+SQL Database | SQL Database | South Central US | 1 basic database(s) x 744 hours, size: b | $4.98
+App Service | App Service | South Central US | 2 instance(s), 744 hours, size: s1, standard tier, 0 SNI connection(s), 0 IP connection(s) | $148.80
+ | | | **Monthly Total** | **$3,944.73**
+ | | | **Annual Total** | **$47,336.77**
+
+**Disclaimer**
+* All prices shown are in US Dollar ($). This is a summary estimate, not a quote. For up to date pricing information please visit https://azure.microsoft.com/pricing/calculator/
+* This estimate was created at 2/2/2017 1:25:17 AM UTC.
+
+
+
 
 <h1>Under The Hood</h1>
 <h2 id="batch-loads" align="center">BATCH LOADS</h2>
