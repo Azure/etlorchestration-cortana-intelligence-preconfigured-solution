@@ -26,7 +26,8 @@ The following steps are performed as outlined in the chart above:
 * **[3->4->5]** Hive external tables are created against the cloned source OLTP data and used to generate dimensions which are writtern back to a Hive transactional table. Refer [here](#batch-loads) for details of the transforms applied. In the incremental pipeline, deltas are reconciled using the procedure outlined [here](#incremental-loads).
 * **[5->6->7]** Generated dimensions and source OLTP data are used to generate Hive transactional Fact tables.
 * **[6->7/8->9]** Fact & Dimension tables are written out to CSV files in Azure Blob to enable Polybase load into the data mart (Azure SQL Data Warehouse). Stored procedure activities in Azure Data Factory are kicked off to load external tables and subsequent inserts into Fact and Dimension tables. In the incremental pipeline, deltas are reconciled in a manner similar to the procedure outlined [here](#incremental-loads).
-* **[10]** Data  sourced from the data mart is used to visualize dashboards referencing the OLAP models generated.
+* **[10]** Data  sourced from the data mart is used to generate tabular/multi-dimensional models in Azure Analysis Services.
+* **[11]** Data cached in Azure Analysis services is sourced to visualize dashboards and reports.
 
 ![Pipeline Data Flow Chart](https://github.com/Azure/etlorchestration-cortana-intelligence-preconfigured-solution/blob/master/Docs/figures/FlowChartDiagram.png)
 
