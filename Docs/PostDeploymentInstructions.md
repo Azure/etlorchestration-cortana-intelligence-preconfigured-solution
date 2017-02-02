@@ -28,7 +28,7 @@ The following steps are performed as outlined in the chart above:
 * **[6->7/8->9]** Fact & Dimension tables are written out to CSV files in Azure Blob to enable Polybase load into the data mart (Azure SQL Data Warehouse). Stored procedure activities in Azure Data Factory are kicked off to load external tables and subsequent inserts into Fact and Dimension tables. In the incremental pipeline, deltas are reconciled in a manner similar to the procedure outlined [here](#incremental-loads).
 * **[10]** Data  sourced from the data mart is used to visualize dashboards referencing the OLAP models generated.
 
-![Pipeline Data Flow Chart](https://github.com/Azure/etlorchestration-cortana-intelligence-preconfigured-solution/blob/master/Docs/figures/DataFlowChart.png)
+![Pipeline Data Flow Chart](https://github.com/Azure/etlorchestration-cortana-intelligence-preconfigured-solution/blob/master/Docs/figures/FlowChartDiagram.png)
 
 <h1 id="datasets">Dataset</h1>
 The data used as our OLTP source models a fictious company named 'Adventure Works Cycles'; a large, multinational manufacturing company. The company manufactures and sells metal and composite bicycles to North American, European and Asian commercial markets. Refer [here](https://technet.microsoft.com/en-us/library/ms124825(v=sql.100).aspx) for deeper look at the various business scenarios addressed by this dataset.
