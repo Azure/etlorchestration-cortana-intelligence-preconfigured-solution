@@ -9,7 +9,7 @@ The following document describes details on the **Extract-Transform-Load On Azur
   * [Batch Load and Incremental Processing](#under-the-hood): Covers the details of Hive queries used, tables created and the procedures applied to perform the initial load and ingest incrementals to support change data capture for the dimensions and facts.
 
 <h1 id="pricing">Pricing</h1>
-Details on pricing are available in [this spreadsheet.](https://github.com/Azure/etlorchestration-cortana-intelligence-preconfigured-solution/blob/master/Docs/Data%20Warehousing%20and%20Modern%20BI%20on%20Azure%20-%20Estimated%20Pricing.xlsx)
+Details on estimated pricing are available in [this spreadsheet.](https://github.com/Azure/etlorchestration-cortana-intelligence-preconfigured-solution/blob/master/Docs/Data%20Warehousing%20and%20Modern%20BI%20on%20Azure%20-%20Estimated%20Pricing.xlsx)
 
 <h1 id="architecture">Architecture</h1>
 In this solution, we demonstrate how a hybrid EDW scenario can be implemented on Azure using: 
