@@ -1,6 +1,6 @@
 
 <h1 id="overview">Overview</h1>
-The following document describes details on the **Data Warehousing and Modern BI** technical pattern deployed via [*Cortana Intelligence Solutions (CIS)*](https://start.cortanaintelligence.com/). It covers the following: 
+The following document describes details on the **Data Warehousing and Modern BI** technical pattern deployed via [Cortana Intelligence Solutions (CIS)](https://start.cortanaintelligence.com/). It covers the following: 
 
   * [Architecture](#architecture): A high level description of deployed components, building-blocks and resulting outputs. 
   * [Data Flow](#dataflow): Describes the datasets created and transforms applied over various services to generate the star-schema model of the source OLTP data.
