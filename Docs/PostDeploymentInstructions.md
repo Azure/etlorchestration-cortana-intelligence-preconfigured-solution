@@ -1,5 +1,5 @@
 
-<h1 id="overview">Overview</h1>
+# Overview
 The following document describes details on the Data Warehousing and Modern BI technical pattern deployed via Cortana Intelligence Solutions. It covers the following: 
 
   * [Architecture](#architecture): A high level description of deployed components, building-blocks and resulting outputs. 
@@ -32,7 +32,7 @@ The following steps are performed as outlined in the chart above:
 
 ![Pipeline Data Flow Chart](https://github.com/Azure/etlorchestration-cortana-intelligence-preconfigured-solution/blob/master/Docs/figures/FlowChartDiagram.png)
 
-<h1 id="datasets">Dataset</h1>
+# Datasets
 The data used as our OLTP source models a fictious company named 'Adventure Works Cycles'; a large, multinational manufacturing company. The company manufactures and sells metal and composite bicycles to North American, European and Asian commercial markets. Refer [here](https://technet.microsoft.com/en-us/library/ms124825(v=sql.100).aspx) for deeper look at the various business scenarios addressed by this dataset.
 
 ### Synthetic Data Generation 
