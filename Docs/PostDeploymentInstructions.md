@@ -9,14 +9,13 @@ The following document describes details on the Data Warehousing and Modern BI t
   * [Visualizing with Power BI](#pbi-setup): A wallk through on sourcing the OLAP data to visualize a sample *Reseller Sales Dashboard* using Power BI.
   * [Batch Load and Incremental Processing](#under-the-hood): Covers the details of Hive queries used, tables created and the procedures applied to perform the initial load and ingest incrementals to support change data capture for the dimensions and facts.
 
-
-<h1 id="architecture">Architecture</h1>
+# Architecture
 In this solution, we demonstrate how a hybrid EDW scenario can be implemented on Azure using: 
-+ **Azure SQL Data Warehouse** as a Data mart to vend business-line specific data.
-+ **Azure Analysis Services** as an analytical engine to drive reporting.
-+ **Azure Blob Storage** as a Data Lake to store raw data in their native format until needed in a flat architecture. 
-+ **Azure HDInsight** as a processing layer to transform, sanitize and load raw data into a de-normalized format suitable for analytics. 
-+ **Azure Data Factory** as our orchestration engine to move, transform, monitor and process data in a scheduled time-slice based manner. 
+1. **Azure SQL Data Warehouse** as a Data mart to vend business-line specific data.
+2. **Azure Analysis Services** as an analytical engine to drive reporting.
+3. **Azure Blob Storage** as a Data Lake to store raw data in their native format until needed in a flat architecture. 
+4. **Azure HDInsight** as a processing layer to transform, sanitize and load raw data into a de-normalized format suitable for analytics. 
+5. **Azure Data Factory** as our orchestration engine to move, transform, monitor and process data in a scheduled time-slice based manner. 
 
 Our scenario includes an Extract-Load-and-Transform (ELT) model. Firstly, we extract data from an operational OLTP data source into Azure Blob Storage. Azure Blob acts as landing zone to process initially loaded data. We then transform the data to generate facts and dimensions using Azure HDInsight's Hive as our processing engine. This processed data is then moved into Azure SQL Data Warehouse that acts as data mart for reporting and analysis. We then show how this data can be visualized on tools such as PowerBI. Importantly, we also show how this entire architecture can be orchestrated and monitored through Azure Data Factory. To demonstrate this, we deploy both a batch pipeline to showcase initial bulk data load and an incremental pipeline to instrument change data capture for incoming data slices. 
 
