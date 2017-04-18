@@ -129,7 +129,7 @@ Power BI can connect to our data mart hosted on Azure SQL Data Warehouse to visu
 
 
 
-<h1 id="pricing">Pricing</h1>
+# Pricing
 Estimated (mimimun) cost for running this technical pattern
 
 **Service type** | **Custom name** | **Region** | **Description** | **Estimated Cost**
