@@ -21,7 +21,7 @@ Our scenario includes an Extract-Load-and-Transform (ELT) model. Firstly, we ext
 
 ![High Level Pipeline Architecture](https://github.com/Azure/etlorchestration-cortana-intelligence-preconfigured-solution/blob/master/Docs/figures/ArchitectureDiagram.png)
 
-<h1 id="dataflow">Data Flow</h1>
+# Data Flow
 The following steps are performed as outlined in the chart above: 
 * **[1->2]** Normalized OLTP data is cloned to Azure Blob storage every hour. Data copied is partitioned by time slice at a 1 hour granularity.
 * **[3->4->5]** Hive external tables are created against the cloned source OLTP data and used to generate dimensions which are writtern back to a Hive transactional table. Refer [here](#batch-loads) for details of the transforms applied. In the incremental pipeline, deltas are reconciled using the procedure outlined [here](#incremental-loads).
